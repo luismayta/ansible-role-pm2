@@ -1,5 +1,5 @@
 ansible-role-pm2
-==================================
+================
 
 pm2 for ansible
 
@@ -14,70 +14,119 @@ pm2 for ansible
 .. contents:: Table of Contents:
     :local:
 
-Features
---------
+Ansible Galaxy role for `Pm2`_.
 
-* Task
+Requirements:
+-------------
+
+List of applications:
+
+- `Pyenv`_
+- `Docker`_
+
+Install
+-------
+
+Install it with the following command:
+
+.. code-block:: bash
+
+    $ ansible-galaxy install equipindustry.pm2
+
+
+Using ``requirements.yml``:
+
+.. code-block:: yaml
+
+    - src: equipindustry.pm2
+
+
+Role Variables
+--------------
+
+The default role variables in ``defaults/main.yml`` are:
+
+.. code-block:: yaml
+
+    ---
+    # pm2_cmds:
+    #   - run: sendSignal             # pm2 command name
+    #     args: SIGUSR2 my-app        # optional arguements to pass
+    #     path: /var/www/myapp        # optional chdir path
+    #     ignore_errors: yes          # optional don't fail on pm2 errors
+    #     env:                        # optional environment settings
+    #       NODE_ENV: production
+    # pm2_apps:
+    #   - run: pm2.json               # you can also run a .js file like app.js
+    #     cmd: start                  # optional command to run on the app
+    #     args: --name console_error  # optional arguements to pass i.e. to app.js
+    #     path: /var/www/myapp        # optional chdir path
+    #     env:                        # optional environment settings
+    #       NODE_ENV: production
+    # pm2_post_cmds:
+    #   - run: save                   # pm2 command name
+    #     args:                       # optional arguements to pass
+    #     path: /var/www/myapp        # optional chdir path
+    #     ignore_errors: yes          # optional don't fail on pm2 errors
+    #     env:                        # optional environment settings
+    #       NODE_ENV: production
+    #
+
+
+    # list of commands to run
+    # note: these will be executed before managing apps
+    pm2_cmds:
+    # note: delete all apps initially on every run so only configured apps exist
+    - run: delete all
+    # default env to run on cmds
+    pm2_cmds_default_env: {}
+    # list of post commands to run
+    # note: these will be executed after managing apps
+    pm2_post_cmds: []
+    # default env to run on post cmds
+    pm2_post_cmds_default_env: {}
+    # list of paths to JSON app declarations
+    pm2_apps: []
+    # default env to run on apps
+    pm2_apps_default_env: {}
+    # default command to run on apps
+    pm2_apps_default_cmd: start
+    # delete all initially on every run
+    pm2_apps_delete_all: yes
+    # install upstart
+    pm2_upstart: yes
+    # start on boot
+    pm2_service_enabled: yes
+    # service name for startup system
+    pm2_service_name: pm2-init.sh
+    # current state: started, stopped
+    pm2_service_state: started
+    # version
+    pm2_version:
+    # user to run pm2 commands
+    pm2_user: "{{ ansible_user_id }}"
+    # startup platform
+    pm2_platform:
 
 Dependencies
 ------------
 
-.. code-block:: bash
+- Ansible >= 2.4
+- installed nodejs
 
-    https://github.com/mafredri/zsh-async
-    https://github.com/luismayta/zsh-core
-    https://github.com/luismayta/zsh-notify
-    https://github.com/luismayta/zsh-functions
+Example Playbook
+----------------
 
-Installation
-------------
+See the `examples <./examples/>`__ directory.
 
-`oh-my-zsh <https://github.com/robbyrussell/oh-my-zsh>`__ users
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+To run this playbook with default settings, create a basic playbook like
+this:
 
-If you're using
-`oh-my-zsh <https://gitub.com/robbyrussell/oh-my-zsh>`__, install this
-plugin by doing the following:
+.. code:: yaml
 
-1. Go to your oh-my-zsh custom plugins directory -
-    ``cd ~/.oh-my-zsh/custom/plugins``
-2. Clone the plugin
-    ``bash   git clone https://github.com/equipindustry/ansible-role-pm2``\ bash
-3. Edit your ``.zshrc`` and add
-    ``plugins=( ... ansible-role-pm2 )`` to your list of
-    plugins
-4. Open a new terminal and enjoy!
-
-`antigen <https://github.com/zsh-users/antigen>`__ users
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-If you're using `Antigen <https://github.com/zsh-lovers/antigen>`__,
-install this plugin by doing the following:
-
-1. Add ``antigen bundle equipindustry/ansible-role-pm2`` to your
-    ``.zshrc`` where you're adding your other plugins.
-2. Either open a new terminal to force zsh to load the new plugin, or
-    run ``antigen bundle equipindustry/ansible-role-pm2`` in a
-    running zsh session.
-3. Enjoy!
-
-`antibody <https://github.com/getantibody/antibody>`__ users
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-If you're using `Antigen <https://github.com/getantibody/antibody>`__,
-install this plugin by doing the following:
-
-1. Add :
-
-    .. code-block:: bash
-
-        antibody bundle equipindustry/ansible-role-pm2
-
-    to your ``.zshrc`` where you're adding your other plugins.
-2. Either open a new terminal to force zsh to load the new plugin, or
-    run ``antibody bundle equipindustry/ansible-role-pm2`` in a
-    running zsh session.
-3. Enjoy!
+        - hosts: servers
+          roles:
+            - equipindustry.pm2
 
 Quick Start
 ===========
@@ -178,14 +227,14 @@ Made with :coffee: and :pizza: by `Luis Mayta`_ and `equipindustry`_.
     :target: https://github.com/luismayta
 
 .. Footer:
+
 .. |linkedin| image:: http://www.linkedin.com/img/webpromo/btn_liprofile_blue_80x15.png
     :target: https://pe.linkedin.com/in/luismayta
 .. |beacon| image:: https://ga-beacon.appspot.com/UA-65019326-1/github.com/equipindustry/ansible-role-pm2/readme
     :target: https://github.com/equipindustry/ansible-role-pm2
-.. |made| image:: https://img.shields.io/badge/Made%20with-Zsh-1f425f.svg
-    :target: http://www.zsh.org
 
 .. Dependences:
 
 .. _Pyenv: https://github.com/pyenv/pyenv
 .. _Docker: https://www.docker.com/
+.. _Pm2: https://pm2.io
