@@ -194,7 +194,7 @@ Feel free to contact me to discuss any issues, questions, or comments.
 * `Website`_
 * `PGP`_
 
-|linkedin| |beacon| |made|
+|linkedin| |beacon|
 
 Made with :coffee: and :pizza: by `Luis Mayta`_ and `equipindustry`_.
 
