@@ -1,22 +1,39 @@
 ---
 - import_tasks: include-vars.yaml
 
-- include: load.yaml
+- import_tasks: load.yaml
 
-- include: apps.yaml
+- import_tasks: apps.yaml
 
-- include: dependences.yaml
+- import_tasks: dependences.yaml
 
-- include: files.yaml
+- import_tasks: files.yaml
 
-- include: host.yaml
+- import_tasks: host.yaml
 
-- include: pip.yaml
+- import_tasks: pip.yaml
 
-- include: install.yaml
+- import_tasks: install.yaml
+  tags:
+    - web
+    - pm2
+    - install
+    - pm2-install
 
-- include: configure.yaml
+- import_tasks: configure.yaml
+  tags:
+    - web
+    - pm2
+    - manage
+    - pm2-manage
 
-- include: environment.yaml
+- import_tasks: environment.yaml
 
-- include: post_install.yaml
+- import_tasks: post_install.yaml
+
+- import_tasks: service.yaml
+  tags:
+    - web
+    - pm2
+    - service
+    - pm2-service
